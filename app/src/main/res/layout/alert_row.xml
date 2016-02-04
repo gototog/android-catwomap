@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:orientation="vertical" android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent">-->
+
+<!--</LinearLayout>-->
+
+<LinearLayout android:id="@+id/alertRowLayout"
+    android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="10sp" android:paddingRight="10sp"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:orientation="vertical" android:paddingTop="2sp">
+
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="fill_parent" android:id="@+id/alertRowName"
+        android:text="Name" android:typeface="sans" android:textSize="16sp" android:textStyle="bold"></TextView>
+
+    <LinearLayout android:id="@+id/LinearLayout02"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent">
+        <TextView android:id="@+id/alertRowNpPeopleLabel" android:layout_width="150dp"
+            android:layout_height="wrap_content" android:textStyle="bold"
+            android:text="Nombre d'habitants : " android:textSize="13sp"></TextView>
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="000 000"
+            android:id="@+id/alertRowNpPeople" android:textSize="13sp"
+            android:width="250dp"></TextView>
+
+        <Button android:layout_width="wrap_content" android:id="@+id/btnShow" android:text="Show" android:layout_height="40dip"></Button>
+
+    </LinearLayout>
+
+</LinearLayout>
