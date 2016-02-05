@@ -1,5 +1,7 @@
 package gotocorp.catwomapp2.entity;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by goto on 04/02/16.
  */
@@ -8,7 +10,7 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
-    private LatLng locationPoint;
+    private LatLng location;
 
     public User() {
     }
@@ -38,5 +40,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public LatLng getLocation() {
+        return location;
     }
 }

@@ -12,10 +12,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import gotocorp.catwomapp2.adapter.AlertAdapter;
+import gotocorp.catwomapp2.entity.Alert;
+import gotocorp.catwomapp2.repository.AlertRepository;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    protected AlertAdapter alertAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +49,19 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        alertAdapter = new AlertAdapter(
+                this,
+//                R.layout.activity_sql_lite1, //TODO comprendre ce paramètre (apparement le style d'affichache de la liste view)
+                new ArrayList<Alert>()
+        );
+
+        // on set l'adapter de la liste
+        ListView listViewCity = (ListView) findViewById(R.id.cityListView);
+        listViewCity.setAdapter(alertAdapter);
+        AlertRepository alertRepository = new AlertRepository(this);
+        //On initialise nos villes si on a la bdd vide (premier lancement de l'appli)
+        List<Alert> alertList = alertRepository.getAlerts();
     }
 
     @Override

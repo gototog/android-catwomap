@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 import gotocorp.catwomapp2.entity.Alert;
+import gotocorp.catwomapp2.entity.User;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -74,36 +75,40 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
 
         Geocoder coder = new Geocoder(this);
-        LatLng locationPoint = new LatLng(48.05, 12.85); //la ville fucking, en autriche xD (ma valeur par defaut)
-        String cityName = "Fucking";
-        String description = "Oui oui, c'est une exception...";
-        //on va essayer d'utiliser l'api :]
-        try {
+        User user = new User();
+        user.initFromWebService();
+        user.refreshPositionFromWebService();
+
+        //on va essayer d'utiliser l'api de google :]
+//        try {
             //valeurs
-            cityName = alert.getName();
-            description = "Nombre d'habitants: ".concat( alert.getMapCoordinate() );
+            String fullName = user.getFirstname().concat(" ").concat(user.getLastname() );
+            String description = "Réputation: ".concat("150 pt");
 
             //geoloc
-            List<Address> address = coder.getFromLocationName(cityName.concat(", France"),1 );
-            Address location= address.get(0);
-            location.getLatitude();
-            location.getLongitude();
+//            List<Address> address = coder.getFromLocationName(user.refreshPositionFromWebService().concat(", France"), 1);
+//            Address location= address.get(0);
+            user.refreshPositionFromWebService();
 
             //on affiche le point sur la map
-            locationPoint = new LatLng(location.getLatitude(), location.getLongitude());
+            LatLng locationPoint = user.getLocation();
 
 
-        } catch (IOException e) {
-            Log.e("gecoloc", "getFromLocationName: got RemoteException", e);
-        }
+//        } catch (IOException e) {
+//            Log.e("gecoloc", "getFromLocationName: got RemoteException", e);
+//        }
 
 
 
-        Marker city = mMap.addMarker(new MarkerOptions().position(locationPoint)
-                        .title(cityName)
+        Marker people = mMap.addMarker(new MarkerOptions().position(locationPoint)
+                        .title(fullName)
                         .snippet(description)
         );
-        city.showInfoWindow();//on affiche l'info directement
+        Marker people2 = mMap.addMarker(new MarkerOptions().position(new LatLng(48.05, 12.84))
+                        .title(fullName)
+                        .snippet(description)
+        );
+        people.showInfoWindow();//on affiche l'info directement
         //petit zoom entre 2(max) et 20(min)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, 10));
 

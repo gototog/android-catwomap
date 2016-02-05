@@ -8,7 +8,7 @@ public class Alert {
     private String name;
     private String mapCoordinate;
 
-    public Alert(String name) {
+    public Alert() {
         this.name = name;
         this.mapCoordinate = "inconnu";
     }
