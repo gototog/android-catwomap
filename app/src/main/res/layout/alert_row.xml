@@ -14,16 +14,16 @@
 
     <TextView android:layout_height="wrap_content"
         android:layout_width="fill_parent" android:id="@+id/alertRowName"
-        android:text="Name" android:typeface="sans" android:textSize="16sp" android:textStyle="bold"></TextView>
+        android:text="Alerte sur à Chavant, Grenoble!" android:typeface="sans" android:textSize="16sp" android:textStyle="bold"></TextView>
 
     <LinearLayout android:id="@+id/LinearLayout02"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent">
         <TextView android:id="@+id/alertRowNpPeopleLabel" android:layout_width="150dp"
             android:layout_height="wrap_content" android:textStyle="bold"
-            android:text="Nombre d'habitants : " android:textSize="13sp"></TextView>
+            android:text="alerte de  " android:textSize="13sp"></TextView>
         <TextView android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="000 000"
+            android:layout_height="wrap_content" android:text="Mireille mathieu"
             android:id="@+id/alertRowNpPeople" android:textSize="13sp"
             android:width="250dp"></TextView>
 

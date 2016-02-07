@@ -1,9 +1,6 @@
 package gotocorp.catwomapp2;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -41,13 +38,13 @@ public class MainActivity extends AppCompatActivity
 
         alertAdapter = new AlertAdapter(
                 this,
-//                R.layout.activity_sql_lite1, //TODO comprendre ce paramètre (apparement le style d'affichache de la liste view)
+//                R.layout.activity_sql_lite1, //TODO comprendre ce paramètre (apparement le style d'affichage de la liste view)
                 new ArrayList<Alert>()
         );
 
         // on set l'adapter de la liste
-        ListView listViewCity = (ListView) findViewById(R.id.cityListView);
-        listViewCity.setAdapter(alertAdapter);
+        ListView listViewAlert = (ListView) findViewById(R.id.alertListView);
+        listViewAlert.setAdapter(alertAdapter);
         AlertRepository alertRepository = new AlertRepository(this);
         //On initialise nos villes si on a la bdd vide (premier lancement de l'appli)
         List<Alert> alertList = alertRepository.getAlerts();
