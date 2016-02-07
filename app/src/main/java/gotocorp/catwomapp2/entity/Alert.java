@@ -1,7 +1,8 @@
 package gotocorp.catwomapp2.entity;
 
 /**
- * Created by goto on 04/12/15.
+ * La classe Almertes, composant principal de l'appli.
+ *
  */
 public class Alert {
     private int id;

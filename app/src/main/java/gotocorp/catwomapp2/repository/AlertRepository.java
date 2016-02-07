@@ -11,8 +11,11 @@ import java.util.List;
 import gotocorp.catwomapp2.entity.Alert;
 import gotocorp.catwomapp2.sql.BddSql;
 
+
 /**
- * Created by goto on 04/12/15.
+ * Cette classe s'occupe de chercher les alertes en base de données
+ * Je me demandais si ca serai pas intéressant d'avoir les données en base de données,
+ * comme ca le web service ne sert qu'a synchroniser les infos du serveur et c'est plus rapide lors de l'utilisation?
  */
 public class AlertRepository {
 

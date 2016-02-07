@@ -3,7 +3,7 @@ package gotocorp.catwomapp2.entity;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
- * Created by goto on 04/02/16.
+ * Un utilisateur (servira a afficher qui est derrière les alertes, qui se déplace sur la map))
  */
 public class User {
     private int id;

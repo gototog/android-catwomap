@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import gotocorp.catwomapp2.MapActivity;
+import gotocorp.catwomapp2.MapSingleAlertActivity;
 import gotocorp.catwomapp2.R;
 import gotocorp.catwomapp2.entity.Alert;
 
 /**
- * Created by goto on 08/12/15.
+ * ListAdapter qui transforme les entitiés alertes en vues de la liste
  */
 public class AlertAdapter extends BaseAdapter {
 
@@ -88,7 +88,7 @@ public class AlertAdapter extends BaseAdapter {
                 Alert entry = (Alert) view.getTag();
 
                 Activity activity = (Activity) context;
-                Intent intent = new Intent(activity, MapActivity.class);
+                Intent intent = new Intent(activity, MapSingleAlertActivity.class);
                 intent.putExtra("alertName", entry.getName());
 
                 activity.startActivity(intent);
