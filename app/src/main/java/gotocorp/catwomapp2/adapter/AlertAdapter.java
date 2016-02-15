@@ -55,7 +55,6 @@ public class AlertAdapter extends BaseAdapter {
 
         Alert entry = alerts.get(position);
 
-
         /*
          * ils le disent mieux que moi
          * The convertView argument is essentially a "ScrapView" as described is Lucas post
@@ -74,7 +73,7 @@ public class AlertAdapter extends BaseAdapter {
         TextView textViewItemName = (TextView) convertView.findViewById(R.id.alertRowName);
         textViewItemName.setText( entry.getName() );
         TextView textViewItemNbPeople = (TextView) convertView.findViewById(R.id.alertRowNpPeople);
-        textViewItemNbPeople.setText(entry.getMapCoordinate());
+        textViewItemNbPeople.setText(entry.getLatLong());
 
         Button btnShow = (Button) convertView.findViewById(R.id.btnShow);
         btnShow.setFocusableInTouchMode(false);

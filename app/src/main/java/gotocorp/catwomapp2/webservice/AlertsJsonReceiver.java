@@ -1,10 +1,7 @@
-package gotocorp.catwomapp2;
+package gotocorp.catwomapp2.webservice;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,9 +16,7 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
 
 
     private final static String TAG_ALERTS ="alerts";
-    private final static String TAG_ID ="id";
-    private final static String TAG_NAME ="name";
-    private final static String TAG_MAP_COORDIANTE ="gmap_position";
+
 
     JSONArray alertsJSON = null;
     List<Alert> alertsList;
@@ -46,7 +41,7 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
         WebServiceHandler wsh = new WebServiceHandler();
 
         // Making a request to url and getting response
-        String jsonStr = wsh.makeGetAlertsServiceCall();
+        String jsonStr = wsh.doGetAlertsServiceCall();
 
         Log.d("Response: ", "> " + jsonStr);
 
@@ -59,25 +54,10 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
 
                 // looping through All alerts
                 for (int i = 0; i < alertsJSON.length(); i++) {
-                    JSONObject c = alertsJSON.getJSONObject(i);
-
-                    String id = c.getString(TAG_ID);
-                    String name = c.getString(TAG_NAME);
-                    String mapCoord = c.getString(TAG_MAP_COORDIANTE);
-
-//                    // Phone node is JSON Object
-//                    JSONObject phone = c.getJSONObject(TAG_PHONE);
-//                    String mobile = phone.getString(TAG_PHONE_MOBILE);
-//                    String home = phone.getString(TAG_PHONE_HOME);
-//                    String office = phone.getString(TAG_PHONE_OFFICE);
+                    JSONObject jsonObject = alertsJSON.getJSONObject(i);
 
                     // tmp hashmap for single contact
-                    Alert alert = new Alert();
-
-                    // adding each child node to HashMap key => value
-                    alert.setId(Integer.parseInt(id));
-                    alert.setMapCoordinate(mapCoord);
-                    alert.setName(name);
+                    Alert alert = new Alert(jsonObject);
 
                     // adding contact to contact list
                     alertsList.add(alert);
