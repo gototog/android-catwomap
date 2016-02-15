@@ -1,4 +1,4 @@
-package gotocorp.catwomapp2;
+package gotocorp.catwomapp2.webservice;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -9,10 +9,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +25,7 @@ public class WebServiceHandler {
     static String response = null;
     private final static int GET = 1;
     private final static int POST = 2;
-    private final static String URL_GET_CONTACTS = "http://api.androidhive.info/contacts/";
+    private final static String URL = "http://catwomap.renaud-bredy.fr/v1/";
     public WebServiceHandler() {}
 
     /**
@@ -36,12 +38,16 @@ public class WebServiceHandler {
     }
     /**
      * Making service call
-     * @url - url to make request
-     * @method - http request method
+     *
      * */
-    public String makeGetAlertsServiceCall() {
-        return this.makeServiceCall(URL_GET_CONTACTS, GET, null);
+    public String doGetAlertsServiceCall() {
+
+        List<NameValuePair> params =  new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("status", "active"));
+
+        return this.makeServiceCall(URL.concat("alerts"), GET, params);
     }
+
 
     /**
      * Making service call

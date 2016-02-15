@@ -16,7 +16,7 @@ import java.util.List;
 
 import gotocorp.catwomapp2.adapter.AlertAdapter;
 import gotocorp.catwomapp2.entity.Alert;
-import gotocorp.catwomapp2.repository.AlertRepository;
+import gotocorp.catwomapp2.webservice.AlertsJsonReceiver;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,9 +35,8 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        AlertRepository alertRepository = new AlertRepository(this);
         //On initialise nos villes si on a la bdd vide (premier lancement de l'appli)
-        List<Alert> alertList = alertRepository.getAlerts();
+        List<Alert> alertList = new ArrayList<Alert>();
 
         alertAdapter = new AlertAdapter(
                 this,
@@ -45,11 +44,12 @@ public class MainActivity extends AppCompatActivity
                 alertList
         );
 
+        AlertsJsonReceiver receiver = new AlertsJsonReceiver();
+        receiver.execute();
+
         // on set l'adapter de la liste
         ListView listViewAlert = (ListView) findViewById(R.id.alertListView);
         listViewAlert.setAdapter(alertAdapter);
-
-
 
     }
 
