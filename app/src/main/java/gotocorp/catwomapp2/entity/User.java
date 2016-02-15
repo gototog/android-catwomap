@@ -97,4 +97,10 @@ public class User {
     public String getPosCountry() {
         return posCountry;
     }
+
+
+    public LatLng getLocation() {
+        LatLng loc = new LatLng(Double.parseDouble(posLat),Double.parseDouble(posLong));
+        return loc;
+    }
 }

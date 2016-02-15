@@ -83,7 +83,6 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
         Geocoder coder = new Geocoder(this);
         User user = new User();
         user.initFromWebService();
-        user.refreshPositionFromWebService();
 
         //on va essayer d'utiliser l'api de google :]
 //        try {
@@ -94,7 +93,6 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
             //geoloc
 //            List<Address> address = coder.getFromLocationName(user.refreshPositionFromWebService().concat(", France"), 1);
 //            Address location= address.get(0);
-            user.refreshPositionFromWebService();
 
             //on affiche le point sur la map
             LatLng locationPoint = user.getLocation();

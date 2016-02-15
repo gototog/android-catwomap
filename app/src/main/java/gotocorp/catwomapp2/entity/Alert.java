@@ -32,7 +32,7 @@ public class Alert {
     public Alert(JSONObject jsonObject) {
         try {
             this.id = Integer.parseInt(jsonObject.getString(TAG_ID));
-            this.name = jsonObject.getString(TAG_NAME);
+            this.name = jsonObject.optString(TAG_NAME);
             this.posLong = jsonObject.getString(TAG_MAP_LONG);
             this.posLat = jsonObject.getString(TAG_MAP_LAT);
             this.posCity = jsonObject.getString(TAG_MAP_CITY);

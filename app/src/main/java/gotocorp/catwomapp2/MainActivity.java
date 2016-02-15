@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -22,9 +23,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     AlertAdapter alertAdapter;
+    List<Alert> alerts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        alerts = new ArrayList<Alert>();
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -36,15 +41,16 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         //On initialise nos villes si on a la bdd vide (premier lancement de l'appli)
-        List<Alert> alertList = new ArrayList<Alert>();
 
         alertAdapter = new AlertAdapter(
                 this,
 //                R.layout.activity_sql_lite1, //TODO comprendre ce paramètre (apparement le style d'affichage de la liste view)
-                alertList
+                alerts
         );
+        Log.d("c'est parti: ", "go receiver");
+        AlertsJsonReceiver receiver = new AlertsJsonReceiver(alerts, alertAdapter);
 
-        AlertsJsonReceiver receiver = new AlertsJsonReceiver();
+
         receiver.execute();
 
         // on set l'adapter de la liste

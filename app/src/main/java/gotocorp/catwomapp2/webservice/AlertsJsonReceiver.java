@@ -7,8 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import gotocorp.catwomapp2.adapter.AlertAdapter;
 import gotocorp.catwomapp2.entity.Alert;
 
 
@@ -20,6 +22,12 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
 
     JSONArray alertsJSON = null;
     List<Alert> alertsList;
+    AlertAdapter alertAdapter;
+
+    public AlertsJsonReceiver(List<Alert> alerts, AlertAdapter alertAdapter) {
+        this.alertsList = alerts;
+        this.alertAdapter = alertAdapter;
+    }
 
     @Override
     protected void onPreExecute() {
@@ -29,6 +37,7 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
 //        pDialog.setMessage("Please wait...");
 //        pDialog.setCancelable(false);
 //        pDialog.show();
+        Log.d("question ", "pre exec");
 
     }
 
@@ -47,10 +56,8 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
 
         if (jsonStr != null) {
             try {
-                JSONObject jsonObj = new JSONObject(jsonStr);
+                JSONArray alertsJSON = new JSONArray(jsonStr);
 
-                // Getting JSON Array node
-                alertsJSON = jsonObj.getJSONArray(TAG_ALERTS);
 
                 // looping through All alerts
                 for (int i = 0; i < alertsJSON.length(); i++) {
@@ -75,18 +82,7 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-        // Dismiss the progress dialog
-//        if (pDialog.isShowing())
-//            pDialog.dismiss();
-        /**
-         * Updating parsed JSON data into ListView
-         * */
-//        ListAdapter adapter = new SimpleAdapter(
-//                MainActivity.this, alertsList,
-//                R.layout._alerts_list, new String[]{TAG_NAME, TAG_EMAIL,
-//                TAG_PHONE_MOBILE}, new int[]{R.id.name,
-//                R.id.email, R.id.mobile});
-//
-//        setListAdapter(adapter);
+        alertAdapter.notifyDataSetChanged();
+
     }
 }
