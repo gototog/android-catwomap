@@ -35,19 +35,22 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        AlertRepository alertRepository = new AlertRepository(this);
+        //On initialise nos villes si on a la bdd vide (premier lancement de l'appli)
+        List<Alert> alertList = alertRepository.getAlerts();
 
         alertAdapter = new AlertAdapter(
                 this,
 //                R.layout.activity_sql_lite1, //TODO comprendre ce paramètre (apparement le style d'affichage de la liste view)
-                new ArrayList<Alert>()
+                alertList
         );
 
         // on set l'adapter de la liste
         ListView listViewAlert = (ListView) findViewById(R.id.alertListView);
         listViewAlert.setAdapter(alertAdapter);
-        AlertRepository alertRepository = new AlertRepository(this);
-        //On initialise nos villes si on a la bdd vide (premier lancement de l'appli)
-        List<Alert> alertList = alertRepository.getAlerts();
+
+
+
     }
 
     @Override

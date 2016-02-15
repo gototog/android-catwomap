@@ -23,7 +23,7 @@ public class WebServiceHandler {
     static String response = null;
     private final static int GET = 1;
     private final static int POST = 2;
-    private final static String URL = "http://api.androidhive.info/contacts/";
+    private final static String URL_GET_CONTACTS = "http://api.androidhive.info/contacts/";
     public WebServiceHandler() {}
 
     /**
@@ -40,7 +40,7 @@ public class WebServiceHandler {
      * @method - http request method
      * */
     public String makeGetAlertsServiceCall() {
-        return this.makeServiceCall(URL, GET, null);
+        return this.makeServiceCall(URL_GET_CONTACTS, GET, null);
     }
 
     /**

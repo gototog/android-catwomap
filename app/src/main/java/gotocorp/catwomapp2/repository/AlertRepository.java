@@ -88,17 +88,9 @@ public class AlertRepository {
         List<Alert> alertList = new ArrayList<>();
         Alert alert = new Alert("alerte1", "-15;45");
         alertList.add(alert);
-//        if (c.getCount() > 0) {
-//
-//
-//            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-//                Alert alert = cursorToAlert(c);
-//                alertList.add(alert);
-//            }
-//        }
+        alert = new Alert("alerte1", "-16;45");
+        alertList.add(alert);
 
-        //Sinon on se place sur le premier élément
-//        c.close();
         return alertList;
     }
 
