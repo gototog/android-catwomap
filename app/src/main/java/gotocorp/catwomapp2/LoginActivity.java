@@ -317,7 +317,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     JSONObject userJSON = new JSONObject(jsonStr);
 
                     User user = new User(userJSON);
-
+                    final MyGlobalCatwoman globalVariable = (MyGlobalCatwoman) getApplicationContext();
+                    globalVariable.setUserConnected(user);
                     return true;
                 } catch (JSONException e) {
                     e.printStackTrace();

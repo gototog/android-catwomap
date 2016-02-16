@@ -29,6 +29,7 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Alert alert;
+    private User userConnected;
 //    private CityRepository cityRepository;
 
     @Override
@@ -44,8 +45,9 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
 
 
         Intent myIntent = getIntent(); // gets the previously created intent
-        String cityNameParameter = myIntent.getStringExtra("alert_position");
-
+        int alertId = myIntent.getIntExtra("alertId", 0);
+        final MyGlobalCatwoman globalVariable = (MyGlobalCatwoman) getApplicationContext();
+        userConnected = globalVariable.getUserConnected();
 
 
 
@@ -81,12 +83,12 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
 
 
         Geocoder coder = new Geocoder(this);
-        User user = new User();
+        User user = userConnected;
 
         //on va essayer d'utiliser l'api de google :]
 //        try {
             //valeurs
-            String fullName = user.getFirstname().concat(" ").concat(user.getLastname() );
+            String fullName = user.getFullName();
             String description = "Réputation: ".concat("150 pt");
 
             //geoloc
@@ -107,10 +109,7 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
                         .title(fullName)
                         .snippet(description)
         );
-        Marker people2 = mMap.addMarker(new MarkerOptions().position(new LatLng(48.05, 12.84))
-                        .title(fullName)
-                        .snippet(description)
-        );
+
         people.showInfoWindow();//on affiche l'info directement
         //petit zoom entre 2(max) et 20(min)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, 10));

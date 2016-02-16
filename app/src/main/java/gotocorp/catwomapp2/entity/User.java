@@ -99,7 +99,7 @@ public class User {
     }
 
     public LatLng getLocation() {
-        LatLng loc = new LatLng(Double.parseDouble(posLat),Double.parseDouble(posLong));
+        LatLng loc = new LatLng(Double.parseDouble(posLong),Double.parseDouble(posLat));
         return loc;
     }
 }

@@ -88,7 +88,7 @@ public class AlertAdapter extends BaseAdapter {
 
                 Activity activity = (Activity) context;
                 Intent intent = new Intent(activity, MapSingleAlertActivity.class);
-                intent.putExtra("alertName", entry.getName());
+                intent.putExtra("alertId", entry.getId());
 
                 activity.startActivity(intent);
                 //petites animations
