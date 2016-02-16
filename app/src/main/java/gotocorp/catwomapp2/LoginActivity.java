@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gotocorp.catwomapp2.entity.User;
-import gotocorp.catwomapp2.webservice.AuthenticateJsonReceiver;
+//import gotocorp.catwomapp2.webservice.AuthenticateJsonReceiver;
 import gotocorp.catwomapp2.webservice.WebServiceHandler;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -54,13 +54,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -190,7 +183,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            AuthenticateJsonReceiver task = new AuthenticateJsonReceiver(email, password);
+            UserLoginTask task = new UserLoginTask(email, password);
             task.execute();
         }
     }
@@ -319,14 +312,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             Log.d("Response: ", "> " + jsonStr);
 
-            if (jsonStr != null) {
+            if (jsonStr != null && jsonStr != "400" ) {
                 try {
-                    JSONArray userJSON = new JSONArray(jsonStr);
-                    JSONObject jsonObject = userJSON.getJSONObject(0);
+                    JSONObject userJSON = new JSONObject(jsonStr);
 
-                    // tmp hashmap for single contact
-//                    user = new User(jsonObject);
-                    User user = new User(jsonObject);
+                    User user = new User(userJSON);
 
                     return true;
                 } catch (JSONException e) {

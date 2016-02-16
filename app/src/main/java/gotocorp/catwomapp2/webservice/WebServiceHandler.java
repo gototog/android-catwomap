@@ -1,5 +1,7 @@
 package gotocorp.catwomapp2.webservice;
 
+import android.util.Log;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -52,7 +54,7 @@ public class WebServiceHandler {
     public String doAuthenticateServiceCall(String email, String pass) {
         pass = getSha1Hex(pass);
         List<NameValuePair> params =  new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("pass", pass));
+        params.add(new BasicNameValuePair("password", pass));
 
         return this.makeServiceCall(URL.concat("authenticate/").concat(email), POST, params);
     }
@@ -100,7 +102,8 @@ public class WebServiceHandler {
                 if (params != null) {
                     httpPost.setEntity(new UrlEncodedFormEntity(params));
                 }
-
+                Log.d("url POST", url);
+                Log.d("url POST", httpPost.getParams().toString() );
                 httpResponse = httpClient.execute(httpPost);
 
             } else if (method == GET) {
@@ -110,13 +113,19 @@ public class WebServiceHandler {
                             .format(params, "utf-8");
                     url += "?" + paramString;
                 }
+                Log.d("url GET", url);
                 HttpGet httpGet = new HttpGet(url);
 
                 httpResponse = httpClient.execute(httpGet);
 
             }
             httpEntity = httpResponse.getEntity();
+            Log.d("Response  status", httpResponse.getStatusLine().toString() );
             response = EntityUtils.toString(httpEntity);
+
+            if (httpResponse.getStatusLine().toString() == "HTTP/1.1 400 Bad Request" ) {
+                response="400";
+            }
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

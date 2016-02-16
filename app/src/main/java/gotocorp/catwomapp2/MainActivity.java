@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity
 //                R.layout.activity_sql_lite1, //TODO comprendre ce paramètre (apparement le style d'affichage de la liste view)
                 alerts
         );
-        Log.d("c'est parti: ", "go receiver");
         AlertsJsonReceiver receiver = new AlertsJsonReceiver(alerts, alertAdapter);
 
 
