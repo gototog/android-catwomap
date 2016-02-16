@@ -7,41 +7,37 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import gotocorp.catwomapp2.adapter.AlertAdapter;
 import gotocorp.catwomapp2.entity.Alert;
+import gotocorp.catwomapp2.entity.User;
 
 
-public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
+public class AuthenticateJsonReceiver extends AsyncTask<Void, Void, Void> {
 
 
     private final static String TAG_ALERTS ="alerts";
 
 
     JSONArray alertsJSON = null;
-    List<Alert> alertsList;
+    User user;
     AlertAdapter alertAdapter;
+    String email, pass;
 
-    public AlertsJsonReceiver(List<Alert> alerts, AlertAdapter alertAdapter) {
-        this.alertsList = alerts;
-        this.alertAdapter = alertAdapter;
+    public AuthenticateJsonReceiver(User user, String email, String pass ) {
+        this.user = user;
+        email = email;
+        pass = pass;
+
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         // Showing progress dialog
-//        pDialog = new ProgressDialog(MainActivity.this);
-//        pDialog.setMessage("Please wait...");
-//        pDialog.setCancelable(false);
-//        pDialog.show();
-
 
     }
-
-    // URL to get contacts JSON
 
 
     @Override
@@ -50,7 +46,7 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
         WebServiceHandler wsh = new WebServiceHandler();
 
         // Making a request to url and getting response
-        String jsonStr = wsh.doGetAlertsServiceCall();
+        String jsonStr = wsh.doAuthenticateServiceCall(email, pass);
 
         Log.d("Response: ", "> " + jsonStr);
 
@@ -64,10 +60,9 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
                     JSONObject jsonObject = alertsJSON.getJSONObject(i);
 
                     // tmp hashmap for single contact
-                    Alert alert = new Alert(jsonObject);
+                    user = new User(jsonObject);
 
-                    // adding contact to contact list
-                    alertsList.add(alert);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -82,7 +77,6 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-        alertAdapter.notifyDataSetChanged();
 
     }
 }

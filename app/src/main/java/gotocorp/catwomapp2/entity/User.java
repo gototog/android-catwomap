@@ -18,6 +18,7 @@ public class User {
     private String posCity;
     private String posDep;
     private String posCountry;
+    private String photo;
 
 
     private final static String TAG_ID ="id";
@@ -30,6 +31,7 @@ public class User {
     private final static String TAG_MAP_CITY="position_city";
     private final static String TAG_MAP_DEP="position_dep";
     private final static String TAG_MAP_COUNTRY="position_country";
+    private final static String TAG_PHOTO="photo";
 
     public User() {
 
@@ -37,31 +39,25 @@ public class User {
     public User(JSONObject jsonObject) {
         try {
             this.id = Integer.parseInt(jsonObject.getString(TAG_ID));
-            this.firstname = jsonObject.getString(TAG_FIRSTNAME);
-            this.lastname = jsonObject.getString(TAG_LASTNAME);
+            this.firstname = jsonObject.optString(TAG_FIRSTNAME);
+            this.lastname = jsonObject.optString(TAG_LASTNAME);
             this.email = jsonObject.getString(TAG_EMAIL);
-            this.posLong = jsonObject.getString(TAG_MAP_LONG);
-            this.posLat = jsonObject.getString(TAG_MAP_LAT);
-            this.posCity = jsonObject.getString(TAG_MAP_CITY);
-            this.posDep = jsonObject.getString(TAG_MAP_DEP);
-            this.posCountry = jsonObject.getString(TAG_MAP_COUNTRY);
+            this.posLong = jsonObject.optString(TAG_MAP_LONG);
+            this.posLat = jsonObject.optString(TAG_MAP_LAT);
+            this.posCity = jsonObject.optString(TAG_MAP_CITY);
+            this.posDep = jsonObject.optString(TAG_MAP_DEP);
+            this.posCountry = jsonObject.optString(TAG_MAP_COUNTRY);
+            this.photo = jsonObject.optString(TAG_PHOTO);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void initFromWebService() {
-        String email = "test@email.test";
-        String firstname = "John";
-        String lastname = "Doe";
-        Integer id = 1337;
-        this.id = id;
-        this.email = email;
-        this.firstname = firstname;
-        this.lastname = lastname;
+
+
+    public String getFullName() {
+        return firstname.concat(" ").concat(lastname);
     }
-
-
     public String getFirstname() {
         return firstname;
     }
@@ -98,6 +94,9 @@ public class User {
         return posCountry;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
 
     public LatLng getLocation() {
         LatLng loc = new LatLng(Double.parseDouble(posLat),Double.parseDouble(posLong));

@@ -14,6 +14,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,35 @@ public class WebServiceHandler {
         params.add(new BasicNameValuePair("status", "active"));
 
         return this.makeServiceCall(URL.concat("alerts"), GET, params);
+    }
+
+    public String doAuthenticateServiceCall(String email, String pass) {
+        pass = getSha1Hex(pass);
+        List<NameValuePair> params =  new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("pass", pass));
+
+        return this.makeServiceCall(URL.concat("authenticate/").concat(email), POST, params);
+    }
+
+    private  String getSha1Hex(String clearString)
+    {
+        try
+        {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            messageDigest.update(clearString.getBytes());
+            byte[] bytes = messageDigest.digest();
+            StringBuilder buffer = new StringBuilder();
+            for (byte b : bytes)
+            {
+                buffer.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+            }
+            return buffer.toString();
+        }
+        catch (Exception ignored)
+        {
+            ignored.printStackTrace();
+            return null;
+        }
     }
 
 
