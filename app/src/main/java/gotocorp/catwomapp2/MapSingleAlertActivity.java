@@ -82,7 +82,6 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
 
         Geocoder coder = new Geocoder(this);
         User user = new User();
-        user.initFromWebService();
 
         //on va essayer d'utiliser l'api de google :]
 //        try {

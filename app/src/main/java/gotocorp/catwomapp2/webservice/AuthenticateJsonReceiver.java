@@ -31,6 +31,11 @@ public class AuthenticateJsonReceiver extends AsyncTask<Void, Void, Void> {
         pass = pass;
 
     }
+    public AuthenticateJsonReceiver(String email, String pass ) {
+        email = email;
+        pass = pass;
+
+    }
 
     @Override
     protected void onPreExecute() {
