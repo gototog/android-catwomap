@@ -1,5 +1,6 @@
 package gotocorp.catwomapp2.webservice;
 
+import android.location.Location;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -50,6 +51,13 @@ public class WebServiceHandler {
 
         return this.makeServiceCall(URL.concat("alerts"), GET, params);
     }
+    public String doGetAlertServiceCall(String alertId) {
+
+        List<NameValuePair> params =  new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("status", "active"));
+
+        return this.makeServiceCall(URL.concat("alerts/").concat(alertId), GET, params);
+    }
 
     public String doAuthenticateServiceCall(String email, String pass) {
         pass = getSha1Hex(pass);
@@ -57,6 +65,21 @@ public class WebServiceHandler {
         params.add(new BasicNameValuePair("password", pass));
 
         return this.makeServiceCall(URL.concat("authenticate/").concat(email), POST, params);
+    }
+    public String doCreateAlertServiceCall(int userId, Location loc, String categorie) {
+        List<NameValuePair> params =  new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("alert_form[category]", categorie));
+        params.add(new BasicNameValuePair("alert_form[userCreator]", String.valueOf(userId)) );
+        if(loc == null) {
+
+            params.add(new BasicNameValuePair("alert_form[positionLat]", String.valueOf(45.1878125) ));
+            params.add(new BasicNameValuePair("alert_form[positionLong]", String.valueOf(5.7770382) ));
+        } else {
+            params.add(new BasicNameValuePair("alert_form[positionLat]", String.valueOf(loc.getLatitude()) ));
+            params.add(new BasicNameValuePair("alert_form[positionLong]", String.valueOf(loc.getLatitude()) ));
+        }
+
+        return this.makeServiceCall(URL.concat("alerts"), POST, params);
     }
 
     private  String getSha1Hex(String clearString)

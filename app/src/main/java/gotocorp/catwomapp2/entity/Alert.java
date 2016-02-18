@@ -1,7 +1,14 @@
 package gotocorp.catwomapp2.entity;
 
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * La classe Alertes, composant principal de l'appli.
@@ -16,6 +23,8 @@ public class Alert {
     private String posCountry;
     private String category;
     private String status;
+    private User user;
+    private List<UserHelpAlert> userHelpsAlerts;
 
     private final static String TAG_ID ="id";
 
@@ -27,6 +36,8 @@ public class Alert {
     private final static String TAG_MAP_COUNTRY="position_country";
     private final static String TAG_STATUS="status";
     private final static String TAG_CATEGORY="category";
+    private final static String TAG_CREATOR="user_creator";
+    private final static String TAG_U_HELP_A="user_help_alerts";
 
 
     public Alert(JSONObject jsonObject) {
@@ -40,6 +51,20 @@ public class Alert {
             this.posCountry = jsonObject.getString(TAG_MAP_COUNTRY);
             this.status = jsonObject.getString(TAG_STATUS);
             this.category = jsonObject.getString(TAG_CATEGORY);
+
+            userHelpsAlerts = new ArrayList<UserHelpAlert>();
+
+            if(jsonObject.getString(TAG_CREATOR) != "") {
+                user= new User( jsonObject.getJSONObject(TAG_CREATOR) );
+            }
+
+
+            if(jsonObject.getString(TAG_U_HELP_A) != "") {
+//                for(Int i =0; i< jsonObject.getJSONArray(TAG_U_HELP_A).size()) {
+//
+//                }
+                userHelpsAlerts.add( new UserHelpAlert( jsonObject.getJSONObject(TAG_U_HELP_A) ) );
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -122,5 +147,17 @@ public class Alert {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public User getUserCreator() {
+        return user;
+    }
+
+    public LatLng getLocation() {
+        return new LatLng(Double.parseDouble(posLat), Double.parseDouble(posLong) );
+    }
+
+    public List<UserHelpAlert> getUserHelpsAlerts() {
+        return userHelpsAlerts;
     }
 }

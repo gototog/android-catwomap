@@ -37,7 +37,7 @@ public class AlertsJsonReceiver extends AsyncTask<Void, Void, Void> {
 //        pDialog.setMessage("Please wait...");
 //        pDialog.setCancelable(false);
 //        pDialog.show();
-
+        alertsList.clear();
 
     }
 

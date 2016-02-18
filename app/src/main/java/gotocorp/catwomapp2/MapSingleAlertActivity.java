@@ -1,8 +1,11 @@
 package gotocorp.catwomapp2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -18,11 +21,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import gotocorp.catwomapp2.entity.Alert;
 import gotocorp.catwomapp2.entity.User;
+import gotocorp.catwomapp2.entity.UserHelpAlert;
+import gotocorp.catwomapp2.webservice.WebServiceHandler;
 
 public class MapSingleAlertActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -30,17 +39,16 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
     private GoogleApiClient mGoogleApiClient;
     private Alert alert;
     private User userConnected;
+    private List<Marker> markers;
+    public List<MarkerOptions> options;
 //    private CityRepository cityRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        options = new ArrayList<MarkerOptions>();
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
 
 
@@ -49,13 +57,10 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
         final MyGlobalCatwoman globalVariable = (MyGlobalCatwoman) getApplicationContext();
         userConnected = globalVariable.getUserConnected();
 
+        PopulateAlertMapTask asynTask = new PopulateAlertMapTask(alertId, this);
+        asynTask.execute();
 
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
 
 
 //        //instancie le repository
@@ -99,9 +104,10 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
             LatLng locationPoint = user.getLocation();
 
 
-//        } catch (IOException e) {
-//            Log.e("gecoloc", "getFromLocationName: got RemoteException", e);
-//        }
+        for(int i =0; i< options.size(); i++) {
+
+            mMap.addMarker(options.get(i));
+        }
 
 
 
@@ -109,10 +115,9 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
                         .title(fullName)
                         .snippet(description)
         );
-
         people.showInfoWindow();//on affiche l'info directement
         //petit zoom entre 2(max) et 20(min)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, 13));
 
     }
 
@@ -135,6 +140,89 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+    }
+
+    /**
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
+     */
+    public class PopulateAlertMapTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final int alert;
+        private MapSingleAlertActivity that;
+//        private List<MarkerOptions> options;
+
+        PopulateAlertMapTask(int alertId, MapSingleAlertActivity its) {
+            alert = alertId;
+            that = its;
+//            options = new ArrayList<MarkerOptions>();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // Creating service handler class instance
+            WebServiceHandler wsh = new WebServiceHandler();
+
+            // Making a request to url and getting response
+            String jsonStr = wsh.doGetAlertServiceCall(String.valueOf(alert));
+
+            Log.d("Response: ", "> " + jsonStr);
+
+            if (jsonStr != null && jsonStr != "400" ) {
+                try {
+                    JSONObject alertJSON = new JSONObject(jsonStr);
+                    Alert alert = new Alert(alertJSON);
+                    MarkerOptions markerOpt = new MarkerOptions().position(alert.getLocation())
+                            .title(alert.getCategory())
+                            .snippet(alert.getUserCreator().getFullName())
+                            ;
+                    that.options.add(markerOpt);
+
+
+                    for(int i =0; i< alert.getUserHelpsAlerts().size(); i++) {
+                        UserHelpAlert uHelpAlert;
+                        uHelpAlert = alert.getUserHelpsAlerts().get(i);
+                        User user = uHelpAlert.getUser();
+                         markerOpt = new MarkerOptions().position(user.getLocation())
+                                .title(user.getFullName())
+                                .snippet(user.getEmail())
+                                ;
+                        that.options.add(markerOpt);
+                    }
+
+
+                    return true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+
+            if (success) {
+                //            Intent i = new Intent(MainActivity.this, MainActivity.class);
+                //            startActivity(i);
+            } else {
+
+            }
+// Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(that);
+
+
+
+            mGoogleApiClient = new GoogleApiClient.Builder(that)
+                    .addConnectionCallbacks(that)
+                    .addOnConnectionFailedListener(that)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+
     }
 }
 
