@@ -4,6 +4,7 @@ import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,10 +61,11 @@ public class Alert {
 
 
             if(jsonObject.getString(TAG_U_HELP_A) != "") {
-//                for(Int i =0; i< jsonObject.getJSONArray(TAG_U_HELP_A).size()) {
-//
-//                }
-                userHelpsAlerts.add( new UserHelpAlert( jsonObject.getJSONObject(TAG_U_HELP_A) ) );
+                JSONArray array =  jsonObject.getJSONArray(TAG_U_HELP_A);
+                for(int i =0; i< array.length(); i++) {
+                    userHelpsAlerts.add( new UserHelpAlert( array.getJSONObject(i) ) );
+
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
