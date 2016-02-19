@@ -55,12 +55,11 @@ public class Alert {
 
             userHelpsAlerts = new ArrayList<UserHelpAlert>();
 
-            if(jsonObject.getString(TAG_CREATOR) != "") {
+            if(jsonObject.has(TAG_CREATOR)) {
                 user= new User( jsonObject.getJSONObject(TAG_CREATOR) );
             }
 
-
-            if(jsonObject.getString(TAG_U_HELP_A) != "") {
+            if(jsonObject.has(TAG_U_HELP_A)) {
                 JSONArray array =  jsonObject.getJSONArray(TAG_U_HELP_A);
                 for(int i =0; i< array.length(); i++) {
                     userHelpsAlerts.add( new UserHelpAlert( array.getJSONObject(i) ) );

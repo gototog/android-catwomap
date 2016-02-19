@@ -20,7 +20,7 @@ public class UserHelpAlert {
 
             this.id = Integer.parseInt(jsonObject.getString(TAG_ID));
 
-            if(jsonObject.getString("user") != "") {
+            if(jsonObject.has("user")) {
                 user= new User( jsonObject.getJSONObject("user") );
             }
 

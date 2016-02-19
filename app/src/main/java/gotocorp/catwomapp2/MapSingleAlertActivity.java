@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -94,7 +95,7 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
 //        try {
             //valeurs
             String fullName = user.getFullName();
-            String description = "Réputation: ".concat("150 pt");
+            String description = "Moi ";
 
             //geoloc
 //            List<Address> address = coder.getFromLocationName(user.refreshPositionFromWebService().concat(", France"), 1);
@@ -106,7 +107,12 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
 
         for(int i =0; i< options.size(); i++) {
 
-            mMap.addMarker(options.get(i));
+            Marker marker = mMap.addMarker(options.get(i));
+            //le premier = l'alerte
+            if(i == 0) {
+                marker.showInfoWindow();//on affiche l'info directement
+
+            }
         }
 
 
@@ -114,8 +120,9 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
         Marker people = mMap.addMarker(new MarkerOptions().position(locationPoint)
                         .title(fullName)
                         .snippet(description)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
         );
-        people.showInfoWindow();//on affiche l'info directement
+
         //petit zoom entre 2(max) et 20(min)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationPoint, 13));
 
@@ -175,6 +182,7 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
                     MarkerOptions markerOpt = new MarkerOptions().position(alert.getLocation())
                             .title(alert.getCategory())
                             .snippet(alert.getUserCreator().getFullName())
+
                             ;
                     that.options.add(markerOpt);
 
@@ -186,6 +194,7 @@ public class MapSingleAlertActivity extends FragmentActivity implements OnMapRea
                          markerOpt = new MarkerOptions().position(user.getLocation())
                                 .title(user.getFullName())
                                 .snippet(user.getEmail())
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
                                 ;
                         that.options.add(markerOpt);
                     }

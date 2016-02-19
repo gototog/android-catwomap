@@ -48,13 +48,14 @@ public class WebServiceHandler {
 
         List<NameValuePair> params =  new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("status", "active"));
+        params.add(new BasicNameValuePair("dep", "Isère"));
 
         return this.makeServiceCall(URL.concat("alerts"), GET, params);
     }
     public String doGetAlertServiceCall(String alertId) {
 
         List<NameValuePair> params =  new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("status", "active"));
+//        params.add(new BasicNameValuePair("status", "active"));
 
         return this.makeServiceCall(URL.concat("alerts/").concat(alertId), GET, params);
     }
